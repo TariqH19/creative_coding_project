@@ -1,66 +1,173 @@
-let screenHeight = 500;
-let screenWidth = 500;
-let balloons = [];
-let balloonRadius = 20;
-let numCols = 5;
-let numRows = 5;
-let hSpace = 30;
-let vSpace = 30;
-let xOffset = (screenWidth - (numCols-1) * hSpace)/2;
-let yOffset = 30;
+let arrows = [];
+let howManyXold, howManyYold 
 
-let platformWidth=100;
-let platformHeight=20;
-let platform;
 
-let pin = [];
-let pinRadius = 10;
-let yVelocity = 2;
-let xVelocity = 2;
+let params = {
+	howManyX: 7,
+	howManyY: 9,
+	offsetX: 80,
+	offsetY: 60,
+	spacingX: 60,
+	spacingY: 60,
+	
+	shape: ['arrow', 'triangle'],
+	strokeWidth: 4,
+	strokeWidthMin:1,
+	strokeWidthMax:11,
+	strokeColor: '#00ddff',
+	fillColor: '#00dd00',
+	drawStroke: true,
+	fillStroke: false,
+
+	howManyXMin: 2,
+	howManyYMin: 2,
+	offsetXMin: 0,
+	offsetYMin: 0,
+	spacingXMin: 5,
+	spacingYMin: 5,
+
+
+	howManyXMax: 30,
+	howManyYMax: 20,
+	offsetXMax: 80,
+	offsetYMax: 80,
+	spacingXMax: 200,
+	spacingYMax: 200,
+
+	scale: 1,
+	scaleMin: 0.1,
+	scaleMax: 3,
+	scaleStep: 0.1
+}
+
+
+
+let gui;
 
 function setup() {
-    myBalloons();
-    platform = new Platform(screenWidth/2, screenHeight - platformHeight/2);
-    createCanvas(screenWidth,screenHeight);
-    background(255);
+	createCanvas(800, 600);
+
+	// create the GUI
+	gui = createGui('Change Arrow Grid');
+	gui.addObject(params);
+
+	//calculate offsetX and offsetY to center the grid
+	//inside the canvas
+	params.offsetX = width - params.howManyX * params.spacingX/2;
+	params.offsetY = height - params.howManyY * params.spacingY/2;
+	arrows = buildArray(params.howManyX, params.howManyY);
+
+
+}
+
+function buildArray(x,y) {
+		console.log("===buildArray method!")
+		let tempArrows = []		//getting some arrows going
+		for (let i=0;i<x; i++) {
+			for (let j=0;j<y; j++){
+				let tempArrow = new Arrow(params.offsetX + (params.spacingX *i) , params.offsetY + (params.spacingY *j), 0, params.arrowScale)
+				tempArrows.push(tempArrow);
+			}
+		}
+		return tempArrows;
 }
 
 function draw() {
-    background(0);
-    platform.render();
-    platform.move();
+    background(200,0,0);
+    //drawing some arrows from the Array
+	let index = 0;
 
-    balloons.forEach(balloon =>{
-        balloon.render();
-    });
+	//check if change in howManyX or howManyY triggered through UI
+	if (howManyXold != params.howManyX || howManyYold != params.howManyY){
+		console.log("Arrow numbers changed. Rebuilding Array");
+		arrows = buildArray(params.howManyX, params.howManyY);
+		console.log("New array length: ", arrows.length);
+	}
 
-    for(let i = pin.length -1; i>=0; i--){
-        pin[i].move();
-        pin[i].render();
-        pin[i].bounce();
-        for(let j = balloons.length -1; j>=0; j--){
-            if (pin[i].hits(balloons[j])){
-                balloons.splice(j,1);
-            
-            }
-        }      
-    }
+	for (let i=0;i<params.howManyY; i++) {
+		for (let j=0;j<params.howManyX; j++){
+			let curArrow = arrows[index];
+			//update curArrow object with refreshed params from UI
+			curArrow.x = params.offsetX + (params.spacingX * i)
+			curArrow.y = params.offsetY + (params.spacingY * j)
+			curArrow.sc = params.arrowScale
+			//console.log(curArrow)
+			
+
+			curArrow.update(params);
+			curArrow.draw();
+			index = index + 1;
+		}
+	}
+
+	//update values in howManyXold and howManyYold to compare 
+	howManyXold = params.howManyX;
+	howManyYold = params.howManyY;
+
+	
+
 }
 
-function keyPressed(){
-    if(keyCode === RIGHT_ARROW){
-        platform.setDirection(1);
-    } else if(keyCode === LEFT_ARROW){
-        platform.setDirection(-1);
-    } else if(keyCode === 32){
-        pin.push (new Pin(Math.round(Math.random() *500),Math.round(Math.random() *500)))
-    }
-}
 
-function myBalloons(){
-    for(let row=0 ; row < numRows; row++){
-        for(let col=0 ; col < numCols; col++){
-        balloons.push(new Balloon(Math.round(Math.random() *500),Math.round(Math.random() *200)));
-        }
+
+
+class Arrow {
+	constructor(x, y, rotation, sc) {
+		this.x = x;
+		this.y = y;
+		this.scale = sc;
+		this.fCol = '#ffffff';
+		this.strCol = '#ffffff';
+		this.strW = 5;
+		this.rotation = rotation;
+		this.strBool = true;
+		this.fillBool  = true;
+		
+	}
+
+    update(paraList) {
+        let dx = (mouseX/this.scale) - this.x;	
+        let dy = (mouseY/this.scale) - this.y; 
+		
+        let angle = atan2(dy, dx);
+        this.rotation = angle;
+		this.strBool = paraList.drawStroke;
+		this.strCol = paraList.strokeColor;
+		this.strW = paraList.strokeWidth;
+		this.fillBool = paraList.fillStroke;
+		this.fCol = paraList.fillColor;
+		this.scale = paraList.scale
     }
+
+	draw() {
+		push();
+			
+			scale(this.scale)
+			translate(this.x/ this.scale, this.y / this.scale);
+			rotate(this.rotation);
+			if (this.fillBool) {
+				fill(this.fCol)
+			} else {
+				noFill();
+			}
+
+			if (this.strBool) {
+				strokeWeight(this.strW)
+				stroke(this.strCol);
+			}
+			else {
+				noStroke();
+			}
+			//arrow shape
+			/*line(-50, -25, 0, -25);
+			line(0, -25, 0, -50);
+			line(0, -50, 50, 0);
+			line(50, 0, 0, 50);
+			line(0, 50, 0, 25);
+			line(0, 25, -50, 25);
+			line(-50, 25, -50, -25);*/
+			//triangle
+			triangle(0,0,25,25,-25,25)
+		pop();
+	}
 }
