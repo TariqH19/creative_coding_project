@@ -37,7 +37,7 @@ function draw() {
     for(let i = pin.length -1; i>=0; i--){
         pin[i].move();
         pin[i].render();
-        pin[i].bounce();
+        // pin[i].bounce();
         for(let j = balloons.length -1; j>=0; j--){
             if (pin[i].hits(balloons[j])){
                 balloons.splice(j,1);

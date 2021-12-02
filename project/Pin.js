@@ -16,14 +16,10 @@ class Pin {
     move(){
         this.pos.y -= this.yVelocity;
         this.pos.x -= this.xVelocity;
-    }
-
-    bounce(){
-
-        if(this.pos.x < 0 || this.pos.x > 500) {
+        if(this.pos.x < 0 || this.pos.x > 500){
             this.xVelocity *= -1;
         }
-        if(this.pos.y < 0 || this.pos.y > 500) {
+        if(this.pos.y < 0 || this.pos.y > 500 ||this.pos.y >= screenHeight - platformHeight) {
             this.yVelocity *= -1;
         }
     }
@@ -37,12 +33,12 @@ class Pin {
         }
     }
 
-    deflect(platform){
-        let distance = (p5.Vector.sub(this.pos, platform.pos)).mag();
-        if (distance < 10){
-            return true; 
-        } else{
-            return false;
-        }
-    }
+    // deflect(platform){
+    //     let distance = (p5.Vector.sub(this.pos, platform.pos)).mag();
+    //     if (distance < 10){
+    //         return true; 
+    //     } else{
+    //         return false;
+    //     }
+    // }
 }
