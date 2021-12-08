@@ -2,8 +2,8 @@ let screenHeight = 500;
 let screenWidth = 500;
 let balloons = [];
 let bonusBalloons = [];
-let bonusBalloonRadius = 10;
-let balloonRadius = 20;
+let bonusBalloonRadius = 20;
+let balloonRadius = 30;
 let numCols = 3;
 let numRows = 3;
 
@@ -17,6 +17,14 @@ let yVelocity = 5;
 let xVelocity = 5;
 
 let score = 0;
+
+let balloon1;
+let balloon2;
+
+function preload() {
+    balloon1 = loadImage('assets/layer1.png');
+    balloon2 = loadImage('assets/layer2.png')
+}
 
 function setup() {
     normalBalloons();

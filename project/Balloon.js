@@ -7,8 +7,7 @@ class Balloon {
     render(){
         push ();
         translate (this.pos.x, this.pos.y);
-        fill(255,0,0);
-        ellipse(0,0,balloonRadius);
+        image(balloon1,0,0,balloonRadius,balloonRadius);
         pop();
     }
 }
@@ -21,8 +20,7 @@ class bonusBalloon {
     render(){
         push ();
         translate (this.pos.x, this.pos.y);
-        fill(0,0,255);
-        ellipse(0,0,balloonRadius);
+        image(balloon2,0,0,balloonRadius,balloonRadius);
         pop();
     }
 }
