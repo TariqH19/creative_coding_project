@@ -14,31 +14,45 @@ class Pin {
     }
 
     move(){
-        this.pos.y -= this.yVelocity;
-        this.pos.x -= this.xVelocity;
+        this.pos.y += this.yVelocity;
+        this.pos.x += this.xVelocity;
+
+        if (this.pos.y > screenHeight - platformHeight) {
+            gameOver();
+        }
         if(this.pos.x < 0 || this.pos.x > 500){
             this.xVelocity *= -1;
         }
-        if(this.pos.y < 0 || this.pos.y > 500 ||this.pos.y >= screenHeight - platformHeight) {
+        if(this.pos.y < 0) {
+            this.yVelocity *= -1;
+        }
+
+        if ((this.pos.x >= mouseX &&
+            this.pos.x <= mouseX + 90) &&
+          (this.pos.y + 10 >= 470)) {
             this.yVelocity *= -1;
         }
     }
 
     hits(ballon){
         let distance = (p5.Vector.sub(this.pos, ballon.pos)).mag();
-        if (distance < 30){
+        if (distance < pinRadius/2 + balloonRadius/2){
+            score++;
             return true;
         } else{
             return false;
         }
     }
 
-    // deflect(platform){
-    //     let distance = (p5.Vector.sub(this.pos, platform.pos)).mag();
-    //     if (distance < 10){
-    //         return true; 
-    //     } else{
-    //         return false;
-    //     }
-    // }
+    hits2(bonusBalloon){
+        let distance2 = (p5.Vector.sub(this.pos, bonusBalloon.pos)).mag();
+        if (distance2 < pinRadius/2 + bonusBalloonRadius/2){
+            score = score + 5;
+            this.yVelocity ++;
+            this.xVelocity ++;
+            return true;
+        } else{
+            return false;
+        }
+    }
 }

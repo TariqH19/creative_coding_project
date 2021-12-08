@@ -1,13 +1,11 @@
 let screenHeight = 500;
 let screenWidth = 500;
 let balloons = [];
+let bonusBalloons = [];
+let bonusBalloonRadius = 10;
 let balloonRadius = 20;
-let numCols = 5;
-let numRows = 5;
-let hSpace = 30;
-let vSpace = 30;
-let xOffset = (screenWidth - (numCols-1) * hSpace)/2;
-let yOffset = 30;
+let numCols = 3;
+let numRows = 3;
 
 let platformWidth=100;
 let platformHeight=20;
@@ -15,52 +13,89 @@ let platform;
 
 let pin = [];
 let pinRadius = 10;
-let yVelocity = 2;
-let xVelocity = 2;
+let yVelocity = 5;
+let xVelocity = 5;
+
+let score = 0;
 
 function setup() {
-    myBalloons();
+    normalBalloons();
+    specialBalloons();
     platform = new Platform(screenWidth/2, screenHeight - platformHeight/2);
     createCanvas(screenWidth,screenHeight);
-    background(255);
 }
 
 function draw() {
     background(0);
+    fill('#d9c3f7');
+    textSize(24);
+    text("Score: " + score, 10, 25);
     platform.render();
-    platform.move();
 
     balloons.forEach(balloon =>{
         balloon.render();
+    });
+    bonusBalloons.forEach(bonusBalloon =>{
+        bonusBalloon.render();
     });
 
     for(let i = pin.length -1; i>=0; i--){
         pin[i].move();
         pin[i].render();
-        // pin[i].bounce();
+
         for(let j = balloons.length -1; j>=0; j--){
             if (pin[i].hits(balloons[j])){
                 balloons.splice(j,1);
             
             }
-        }      
+        }   
+        for(let n = bonusBalloons.length -1; n>=0; n--){
+            if (pin[i].hits2(bonusBalloons[n])){
+                bonusBalloons.splice(n,1);
+            
+            }
+        }    
+    }
+
+    if (score === 54) {
+        winner();
     }
 }
 
 function keyPressed(){
-    if(keyCode === RIGHT_ARROW){
-        platform.setDirection(1);
-    } else if(keyCode === LEFT_ARROW){
-        platform.setDirection(-1);
-    } else if(keyCode === 32){
-        pin.push (new Pin(Math.round(Math.random() *500),Math.round(Math.random() *500)))
+    if(keyCode === 32){
+        pin.push (new Pin(Math.floor(Math.random() * 300) + 50))
     }
 }
 
-function myBalloons(){
+function normalBalloons(){
     for(let row=0 ; row < numRows; row++){
         for(let col=0 ; col < numCols; col++){
-        balloons.push(new Balloon(Math.round(Math.random() *500),Math.round(Math.random() *200)));
+        balloons.push(new Balloon(Math.round(Math.random() *500),Math.round(Math.random() *200 + 20)));
         }
     }
+}
+
+function specialBalloons(){
+    for(let row=0 ; row < numRows; row++){
+        for(let col=0 ; col < numCols; col++){
+        bonusBalloons.push(new bonusBalloon(Math.round(Math.random() *500),Math.round(Math.random() *200 + 20)));
+        }
+    }
+}
+
+function gameOver(){
+    background(0);
+      textSize(32);
+      textAlign(CENTER);
+      fill(255,80,80);
+      text("GAME OVER",width/2,height/2);
+}
+
+function winner(){
+    background(0);
+    textSize(32);
+    textAlign(CENTER);
+    fill(255,80,80);
+    text("WINNER !!",width/2,height/2);
 }
