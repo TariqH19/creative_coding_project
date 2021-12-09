@@ -1,11 +1,8 @@
 let screenHeight = 500;
 let screenWidth = 500;
-let balloons = [];
-let bonusBalloons = [];
-let bonusBalloonRadius = 20;
-let balloonRadius = 30;
 let numCols = 3;
 let numRows = 3;
+let score = 0;
 
 let platformWidth=100;
 let platformHeight=20;
@@ -16,10 +13,14 @@ let pinRadius = 10;
 let yVelocity = 5;
 let xVelocity = 5;
 
-let score = 0;
-
+let balloons = [];
+let bonusBalloons = [];
+let bonusBalloonRadius = 20;
+let balloonRadius = 30;
 let balloon1;
 let balloon2;
+
+let confettis = [];
 
 function preload() {
     balloon1 = loadImage('assets/layer1.png');
