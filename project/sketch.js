@@ -30,6 +30,7 @@ function setup() {
     normalBalloons();
     specialBalloons();
     platform = new Platform(screenWidth/2, screenHeight - platformHeight/2);
+    pin.push (new Pin(Math.floor(Math.random() * 300) + 50))
     createCanvas(screenWidth,screenHeight);
 }
 
@@ -67,12 +68,6 @@ function draw() {
 
     if (score === 54) {
         winner();
-    }
-}
-
-function keyPressed(){
-    if(keyCode === 32){
-        pin.push (new Pin(Math.floor(Math.random() * 300) + 50))
     }
 }
 

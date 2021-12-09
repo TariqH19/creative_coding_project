@@ -7,7 +7,7 @@ class Platform {
     render(){
         push ();
         // translate (this.pos.x, this.pos.y);
-        fill(255,0,0);
+        fill(0,255,255);
         rect(mouseX,470,90,15);
         pop();
     }
