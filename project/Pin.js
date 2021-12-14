@@ -46,7 +46,7 @@ class Pin {
 
     hits2(bonusBalloon){
         let distance2 = (p5.Vector.sub(this.pos, bonusBalloon.pos)).mag();
-        if (distance2 < balloonRadius){
+        if (distance2 < pinRadius/2 + balloonRadius/2){
             score = score + 5;
             this.yVelocity ++;
             this.xVelocity ++;

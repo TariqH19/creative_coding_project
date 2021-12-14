@@ -36,10 +36,10 @@ function setup() {
 }
 
 function draw() {
-    background(0);
+    background(255,115,0);
     fill('#d9c3f7');
     textSize(24);
-    text("Score: " + score, 10, 25);
+    text("Score: " + score, 25, 25);
     platform.render();
 
     balloons.forEach(balloon =>{
