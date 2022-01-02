@@ -24,7 +24,7 @@ class Particle {
     }
 
     render() {
-        stroke(0,255,0,this.lifetime)
+        stroke(255,0,0,this.lifetime)
         strokeWeight(2)
         fill(0,255,0,this.lifetime)
         ellipse(this.pos.x, this.pos.y, this.r * 2)

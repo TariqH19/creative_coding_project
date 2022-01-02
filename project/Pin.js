@@ -19,6 +19,7 @@ class Pin {
 
         if (this.pos.y > screenHeight - platformHeight) {
             gameOver();
+   
         }
         if(this.pos.x < 0 || this.pos.x > 500){
             this.xVelocity *= -1;

@@ -1,5 +1,3 @@
-
-
 let params = {
 	angle: 180,
 	angleMin: 0,

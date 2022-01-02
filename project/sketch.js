@@ -41,6 +41,11 @@ function draw() {
     textSize(24);
     text("Score: " + score, 25, 25);
     platform.render();
+    confettis.forEach(confetti => {
+        confetti.createParticles();
+        confetti.update();
+        confetti.render();
+    });
 
     balloons.forEach(balloon =>{
         balloon.render();
@@ -55,14 +60,17 @@ function draw() {
 
         for(let j = balloons.length -1; j>=0; j--){
             if (pin[i].hits(balloons[j])){
+                let tempPos=balloons[j].pos;
                 balloons.splice(j,1);
-            
+
+                confettis.push(new Confetti(tempPos.x,tempPos.y));
             }
         }   
         for(let n = bonusBalloons.length -1; n>=0; n--){
             if (pin[i].hits2(bonusBalloons[n])){
+                let tempPos2=bonusBalloons[n].pos;
                 bonusBalloons.splice(n,1);
-            
+                confettis.push(new Confetti(tempPos2.x,tempPos2.y));
             }
         }    
     }
