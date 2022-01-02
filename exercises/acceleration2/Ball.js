@@ -38,7 +38,7 @@ accelerateBall(ax,ay){
 			gameOver();
 		} else if (this.pos.x > 0 && this.pos.x < 440 && this.pos.y < 440 && this.pos.y > 420) {
 			gameOver();
-		} else if (this.pos.x < 90) {
+		} else if (this.pos.x < 90 || this.pos.x > 480) {
 			gameOver();
 		}
 		this.pos.x += this.vx;
