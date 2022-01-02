@@ -52,7 +52,7 @@ function setup() {
 
     // create the GUI
 	gui = createGui('Change Values');
-    gui.setPosition(530, 10);
+    gui.setPosition(530, 200);
 	gui.addObject(params);
     //noLoop();
 }
