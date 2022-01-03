@@ -31,7 +31,6 @@ function setup() {
     normalBalloons();
     specialBalloons();
     platform = new Platform(screenWidth/2, screenHeight - platformHeight/2);
-    pin.push (new Pin(Math.floor(Math.random() * 300) + 50))
     createCanvas(screenWidth,screenHeight);
 }
 
@@ -85,6 +84,12 @@ function normalBalloons(){
         for(let col=0 ; col < numCols; col++){
         balloons.push(new Balloon(Math.round(Math.random() *500),Math.round(Math.random() *200 + 20)));
         }
+    }
+}
+
+function keyPressed(){
+    if (keyCode === 32) {
+        pin.push (new Pin(Math.floor(Math.random() * 300) + 50));
     }
 }
 
