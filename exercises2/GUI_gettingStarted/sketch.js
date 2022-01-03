@@ -50,7 +50,7 @@ function setup() {
     // create the GUI
 	gui = createGui('My Gui settings');
 	gui.addObject(params);
-    gui.setPosition(550,25);
+    gui.setPosition(550,185);
     //noLoop();
 }
 

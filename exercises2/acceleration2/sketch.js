@@ -5,7 +5,6 @@ let ballRadius = 20;
 function setup(){
     createCanvas(500,500);
     ball = new BallRGB (200,240,0,0,20,0,255,255);
-    food = new Food ();
 }
 
 function draw(){
@@ -13,7 +12,6 @@ function draw(){
 
     ball.step();
     ball.render();
-    food.render();
 }
 
 function keyPressed(){
