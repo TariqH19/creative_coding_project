@@ -38,7 +38,7 @@ function draw() {
     background(255,115,0);
     fill('#d9c3f7');
     textSize(24);
-    text("Score: " + score, 25, 25);
+    text("Score: " + score, 35, 25);
     platform.render();
     confettis.forEach(confetti => {
         confetti.createParticles();
